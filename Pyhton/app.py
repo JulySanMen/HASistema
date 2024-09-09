@@ -5,7 +5,7 @@ import io
 import base64
 import pandas as pd
 import numpy as np
-
+#app
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:G170122fg#@localhost/Cuest'
