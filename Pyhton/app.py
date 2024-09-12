@@ -8,7 +8,7 @@ import numpy as np
 #app
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:G170122fg#@localhost/Cuest'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:mysql123@localhost/Encuestas'
 db = SQLAlchemy(app)
 
 class Usuario(db.Model):
@@ -22,7 +22,7 @@ class Preguntas(db.Model):
     texto = db.Column(db.String(255), nullable=False)
     categoria = db.Column(db.Enum('Activo', 'Reflexivo', 'Teórico', 'Pragmático'), nullable=False)
 
-class OpcionRespuesta(db.Model):
+class OpcionesRespuesta(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     texto = db.Column(db.String(50), nullable=False)
     valor = db.Column(db.Integer, nullable=False)
@@ -37,13 +37,16 @@ class Respuesta(db.Model):
 def index():
     return render_template('index.html')
 
-@app.route('/survery', methods=['GET', 'POST'])
+@app.route('/survey', methods=['GET', 'POST'])
 def survey():
     if request.method == 'POST':
         # Save responses to database
         pass
-    preguntas = Pregunta.query.all()
-    return render_template('survey.html', preguntas=preguntas)
+
+    preguntas = Preguntas.query.all()
+    opciones = OpcionesRespuesta.query.all()  # Si tienes opciones de respuesta
+    return render_template('survey.html', preguntas=preguntas, opciones=opciones)
+
 
 @app.route('/graficar')
 def results():

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Encuesta</title>
+    <script>
+        let currentQuestionIndex = 0;
+
+        function showQuestion(index) {
+            document.querySelectorAll('.question').forEach((element, i) => {
+                element.style.display = i === index ? 'block' : 'none';
+            });
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < document.querySelectorAll('.question').length - 1) {
+                currentQuestionIndex++;
+                showQuestion(currentQuestionIndex);
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion(currentQuestionIndex);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showQuestion(currentQuestionIndex);
+        });
+    </script>
+</head>
+<body>
+    <form method="POST" action="/cuestionario">
+        {% for pregunta in preguntas %}
+            <div class="question" style="display: none;">
+                <h2>{{ pregunta.texto }}</h2>
+                <!-- Aquí puedes agregar los elementos de respuesta -->
+                <!-- Ejemplo para opciones de respuesta -->
+                {% for opcion in opciones %}
+                    <label>
+                        <input type="radio" name="respuesta_{{ pregunta.id }}" value="{{ opcion.id }}">
+                        {{ opcion.texto }}
+                    </label><br>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <button type="button" onclick="prevQuestion()">Anterior</button>
+        <button type="button" onclick="nextQuestion()">Siguiente</button>
+        <input type="submit" value="Enviar">
+    </form>
+</body>
+</html>
