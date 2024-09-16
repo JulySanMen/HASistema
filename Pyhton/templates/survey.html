@@ -32,15 +32,13 @@
     </script>
 </head>
 <body>
-    <form method="POST" action="/cuestionario">
+    <form method="POST" action="/survey">
         {% for pregunta in preguntas %}
             <div class="question" style="display: none;">
                 <h2>{{ pregunta.texto }}</h2>
-                <!-- Aquí puedes agregar los elementos de respuesta -->
-                <!-- Ejemplo para opciones de respuesta -->
                 {% for opcion in opciones %}
                     <label>
-                        <input type="radio" name="respuesta_{{ pregunta.id }}" value="{{ opcion.id }}">
+                        <input type="radio" name="pregunta_{{ pregunta.id }}" value="{{ opcion.id }}">
                         {{ opcion.texto }}
                     </label><br>
                 {% endfor %}
@@ -49,6 +47,6 @@
         <button type="button" onclick="prevQuestion()">Anterior</button>
         <button type="button" onclick="nextQuestion()">Siguiente</button>
         <input type="submit" value="Enviar">
-    </form>
+    </form>    
 </body>
 </html>
